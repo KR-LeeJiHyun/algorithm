@@ -9,110 +9,12 @@ struct pos {
 	int y;
 };
 
-bool cutting(vector<vector<int>> slate, int row, int col, int cut) {
-	if (cut == 1) {
-		int size = slate.size();
-		for (int i = 0; i < size; ++i) {
-			if (slate[i][col] == 2) {
-				return false;
-			}
-		}
-	}
-	else if (cut == 2) {
-		int size = slate[0].size();
-		for (int i = 0; i < size; ++i) {
-			if (slate[row][i] == 2) {
-				return false;
-			}
-		}
-	}
-	return true;
-}
+int cut(vector<vector<int>> slate, pos p, bool horizon);
+int remain_slate(vector<vector<int>> slate, bool horizon);
+void sol(vector<vector<int>> slate, queue<pos> impurity);
 
-bool remain_slate(vector<vector<int>> slate, int cut) {
-	bool pass = true;
-	int count = 0;
-	int row_size = 0, col_size = 0;
-	row_size = slate.size();
-	col_size = slate[0].size();
-
-	for (int row = 0; row < row_size; ++row) {
-		for (int col = 0; col < col_size; ++col) {
-			if (slate[row][col] == 1) {
-				pass = false;
-			}
-			else {
-				count += slate[row][col];
-			}
-		}
-		if (!pass) break;
-		else if (count > 2) {
-			pass = false;
-			break;
-		}
-	}
-
-	if (pass && count == 2) return true;
-
-	return false;
-}
-
-void sol(vector<vector<int>> slate, queue<pos> impurity) {
-	int result = 0;
-	pos temp;
-	vector<vector<int>> a_slate, b_slate;
-
-	while (!impurity.empty()) {
-		temp = impurity.front();
-		impurity.pop();
-		
-		//가로 자르기
-		if (cutting(slate, temp.x, temp.y, 2)) {
-			a_slate.resize(temp.x);
-			for (int row = 0; row < temp.x; ++row) {
-				a_slate[row].resize(slate[row].size());
-				for (int col = 0; col < slate[row].size(); ++col) {
-					a_slate[row][col] = slate[row][col];
-				}
-			}
-			b_slate.resize(slate.size() - temp.x -1);
-			for (int row = temp.x + 1; row < slate.size(); ++row) {
-				b_slate[row - temp.x - 1].resize(slate[row].size());
-				for (int col = 0; col < slate[row].size(); ++col) {
-					b_slate[row - temp.x - 1][col] = slate[row][col];
-				}
-			}
-			if (remain_slate(a_slate, 1) && remain_slate(b_slate, 1)) ++result;
-		}
-
-		//세로 자르기
-		if (cutting(slate, temp.x, temp.y, 1)) {
-			a_slate.resize(slate.size());
-			for (int row = 0; row < slate.size(); ++row) {
-				a_slate[row].resize(temp.y);
-				for (int col = 0; col < temp.y; ++col) {
-					a_slate[row][col] = slate[row][col];
-				}
-			}
-			b_slate.resize(slate.size());
-			for (int row = 0; row < slate.size(); ++row) {
-				b_slate[row].resize(slate[row].size() - temp.y - 1);
-				for (int col = temp.y + 1; col < slate[row].size(); ++col) {
-					b_slate[row][col - temp.y - 1] = slate[row][col];
-				}
-			}
-			if (remain_slate(a_slate, 2) && remain_slate(b_slate, 2)) ++result;
-		}
-	}
-
-	cout << result;
-}
-
-int main() {
-	int a = 3/2;
-	cout << a;
-
-	/*int N = 0, input = 0;
+int main() { 
+	int N = 0, input = 0;
 	vector<vector<int>> slate;
 	queue<pos> impurity;
 
@@ -132,7 +34,108 @@ int main() {
 		}
 	}
 
-	sol(slate, impurity);*/
+	sol(slate, impurity);
 
 	return 0;
+}
+
+int remain_slate(vector<vector<int>> slate, bool horizon) {
+	int result = 0;
+	pos temp;
+	bool pass = true;
+	int sum = 0;
+
+	for (int row = 0; row < slate.size(); ++row) {
+		for (int col = 0; col < slate[row].size(); ++col) {
+			if (slate[row][col] == 1) {
+				pass = false;
+				break;
+			}
+			else sum += slate[row][col];
+		}
+		if (!pass) break;
+	}
+
+	if (pass) {
+		if (sum == 2) return 1;
+		else return 0;
+	}
+
+	for (int row = 0; row < slate.size(); ++row) {
+		for (int col = 0; col < slate[row].size(); ++col) {
+			if (slate[row][col] == 1) {
+				temp.x = row;
+				temp.y = col;
+				result += cut(slate, temp, horizon);
+			}
+		}
+	}
+	return result;
+}
+
+int cut(vector<vector<int>> slate, pos p, bool horizon) {
+	vector<vector<int>> a_slate, b_slate;
+
+	//가로자르기
+	if (horizon) {
+		//가능여부 판단
+		for (int col = 0; col < slate[p.x].size(); ++col) {
+			if (slate[p.x][col] == 2) return 0;
+		}
+
+		a_slate.resize(p.x);
+		for (int row = 0; row < p.x; ++row) {
+			a_slate[row].resize(slate[row].size());
+			for (int col = 0; col < slate[row].size(); ++col) {
+				a_slate[row][col] = slate[row][col];
+			}
+		}
+		b_slate.resize(slate.size() - p.x - 1);
+		for (int row = p.x + 1; row < slate.size(); ++row) {
+			b_slate[row - p.x - 1].resize(slate[row].size());
+			for (int col = 0; col < slate[row].size(); ++col) {
+				b_slate[row - p.x - 1][col] = slate[row][col];
+			}
+		}
+		return (remain_slate(a_slate, !horizon)*remain_slate(b_slate, !horizon));
+	}
+
+	//세로자르기
+	else {
+		//가능여부 판단
+		for (int row = 0; row < slate.size(); ++row) {
+			if (slate[row][p.y] == 2) return 0;
+		}
+
+		a_slate.resize(slate.size());
+		for (int row = 0; row < slate.size(); ++row) {
+			a_slate[row].resize(p.y);
+			for (int col = 0; col < p.y; ++col) {
+				a_slate[row][col] = slate[row][col];
+			}
+		}
+		b_slate.resize(slate.size());
+		for (int row = 0; row < slate.size(); ++row) {
+			b_slate[row].resize(slate[row].size() - p.y - 1);
+			for (int col = p.y + 1; col < slate[row].size(); ++col) {
+				b_slate[row][col - p.y - 1] = slate[row][col];
+			}
+		}
+		return (remain_slate(a_slate, !horizon)*remain_slate(b_slate, !horizon));
+	}
+}
+
+void sol(vector<vector<int>> slate, queue<pos> impurity) {
+	int result = 0;
+	pos temp;
+
+	while (!impurity.empty()) {
+		temp = impurity.front();
+		impurity.pop();
+		result += cut(slate, temp, true);
+		result += cut(slate, temp, false);
+	}
+
+	if(result > 0) cout << result;
+	else cout << -1;
 }
