@@ -1,49 +1,45 @@
 #include <vector>
 #include<iostream>
+#include<stack>
+
 
 using namespace std;
 
-void sol(int N, vector<int> histogram, int min, int max) {
-	int answer = 0;
-	for (int i = 0; i < N; ++i) {
-		int base = 1;
-		int current = histogram[i];
+long long N;
+vector<long long> histogram;
 
-		if (current == min) {
-			if (answer < N*current) answer = current*N;
+void sol() {
+	long long answer = 0, height = 0, base = 0;
+	stack<long long> stacks;
+	stacks.push(0);
+	for (long long idx = 1; idx <= N + 1; ++idx) {
+		while (histogram[stacks.top()] > histogram[idx]) {
+			long long check = stacks.top();
+			stacks.pop();
+			long long area = histogram[check] * (idx - stacks.top() - 1);
+			//cout << area << ", ";
+			answer = max(answer, area);
 		}
-
-		else if (current == max) {
-			if (answer < current) answer = current;
-		}
-
-		else {
-			for (int j = i - 1; j > -1; --j) {
-				if (current <= histogram[j]) ++base;
-				else break;
-			}
-
-			for (int j = i + 1; j < N; ++j) {
-				if (current <= histogram[j]) ++base;
-				else break;
-			}
-			if (answer < base*current) answer = current*base;
-		}
+		stacks.push(idx);
 	}
-	cout << answer;
+	answer = max(answer, height * N);
+	cout << "\n" << answer << "\n";
 }
 
 int main() {
-	int N, input;
-	vector<int> histogram;
-	int min = 1000000000, max = 0;
-	cin >> N;
-	for (int i = 0; i < N; ++i) {
-		cin >> input;
-		histogram.push_back(input);
-		if (input < min) min = input;
-		if (input > max) max = input;
+	while (true) {
+		cin >> N;
+		if (N == 0) break;
+		long long input;
+		histogram.push_back(0);
+		for (long long idx = 0; idx < N; ++idx) {
+			cin >> input;
+			histogram.push_back(input);
+		}
+		histogram.push_back(0);
+		sol();
+		histogram.clear();
+		N = 0;
 	}
-	sol(N, histogram, min, max);
 	return 0;
 }
