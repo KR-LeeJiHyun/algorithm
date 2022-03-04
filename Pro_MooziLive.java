@@ -6,15 +6,9 @@ public class Pro_MooziLive {
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub]
-		/*int[] food_times = {1, 1, 1, 1};
+		int[] food_times = {1, 1, 1, 1};
 		long k = 4;
-		solution(food_times, k);*/
-		int a= 1, sum = 0;
-		while(a++ < 10) {
-			sum+= a*3 >= sum ? a:1;
-		}
-		
-		a= 20;
+		solution(food_times, k);
 	}
 	
 	static class Food{
