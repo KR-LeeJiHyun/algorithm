@@ -20,56 +20,31 @@ public class Pro_ItemRoot {
     public static int solution(int[][] rectangle, int characterX, int characterY, int itemX, int itemY) {
         int answer = 0;
         boolean[][] visited = new boolean[MAX + 1][MAX + 1];
+        int[] dX = {0, 0, 1, -1}, dY = {1, -1, 0, 0};
         Queue<Integer> q = new LinkedList<>();
         q.add(characterX);
         q.add(characterY);
         q.add(0);      
-        Queue<ArrayList<Integer>> qList = new LinkedList<>();
-        qList.add(new ArrayList<>());
         
         while(!q.isEmpty()) {
         	int x = q.poll(), y = q.poll(), count = q.poll();
-        	ArrayList<Integer> path = qList.poll();
-        	path.add(x);
-        	path.add(y);
         	
         	if(x == itemX && y == itemY) {
         		answer = count;
-        		for(int idx = 0; idx < path.size(); idx += 2) System.out.print(path.get(idx) + "," + path.get(idx + 1) + " -> ");
-        		System.out.println();
         		return answer;
         	}
         	
         	visited[x][y] = true;
         	
-        	//up
-        	if(y != MAX && check(x, y, x, y + 1, rectangle, visited) ) {
-        		q.add(x);
-        		q.add(y + 1);
-        		q.add(count + 1);
-        		qList.add((ArrayList<Integer>) path.clone());
+        	for(int idx = 0; idx < dX.length; ++idx) {
+        		int nextX = x + dX[idx], nextY = y + dY[idx];
+        		
+            	if (nextX != 0 && nextX <= MAX && nextY != 0 && nextY <= MAX && check(x, y, nextX, nextY, rectangle, visited) ) {
+            		q.add(nextX);
+            		q.add(nextY);
+            		q.add(count + 1);
+            	}
         	}
-        	//down
-        	if(y != 0 && check(x, y, x, y - 1, rectangle, visited)) {
-        		q.add(x);
-        		q.add(y - 1);
-        		q.add(count + 1);
-        		qList.add((ArrayList<Integer>) path.clone());
-        	}
-        	//right
-        	if(x != MAX && check(x, y, x + 1, y, rectangle, visited)) {
-        		q.add(x + 1);
-        		q.add(y);
-        		q.add(count + 1);
-        		qList.add((ArrayList<Integer>) path.clone());
-        	}
-        	//left
-        	if(x != 0 && check(x, y, x - 1, y, rectangle, visited)) {
-        		q.add(x - 1);
-        		q.add(y);
-        		q.add(count + 1);
-        		qList.add((ArrayList<Integer>) path.clone());
-        	}	
         }
         
         return answer;
