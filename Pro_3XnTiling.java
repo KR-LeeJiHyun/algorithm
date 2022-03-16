@@ -3,32 +3,29 @@ public class Pro_3XnTiling {
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-
+		System.out.print(solution(6));
 	}
 	
-    public int solution(int n) {
+    public static int solution(int n) {
         int answer = 0;
         final int MOD = 1000000007;
         
-        if(n >= 4){
+        if(n != 0 && n % 2 == 0){
         long[] dp = new long[n + 1];
-            dp[0] = 0l;
-            dp[1] = 0l;
             dp[2] = 3l;
-            dp[3] = 0l;
-            dp[4] = 11l;
-        
-            for(int idx = 5; idx <= n; ++idx) {
-            	dp[idx] = ((long)dp[idx - 2] * dp[2] + (long)dp[idx - 4] * 2) % MOD;
-            	if(dp[idx] != 0) dp[idx] = dp[idx] + 2;
+            
+            for(int idx = 4; idx <= n; idx += 2) {
+            	dp[idx] = dp[idx - 2] * dp[2]; 
+            	for(int sIdx = 4; sIdx < idx; sIdx += 2) {
+            		dp[idx] += dp[idx - sIdx] * 2;
+            	}
+            	dp[idx] += 2;
             }
         
-            answer = (int)dp[n];
+            answer = (int)dp[n] % MOD;
             return answer;
         }
-        else if(n == 2) return 3;
-        else if(n == 4) return 11;
-        else return 0;
+        else return answer;
     }
 
 }
