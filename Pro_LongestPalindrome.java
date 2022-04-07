@@ -16,7 +16,10 @@ public class Pro_LongestPalindrome {
         	for(int start = 0; start < len - l; ++start) {
         		int end = start + l;
         		if(s.charAt(start) == s.charAt(end)) {
-        			if(start + 1 > end - 1 || dp[start + 1][end - 1]) dp[start][end] = true;
+        			if(start + 1 > end - 1 || dp[start + 1][end - 1]) {
+        				dp[start][end] = true;
+        				answer = l + 1;
+        			}
         		}
         	}
         }
