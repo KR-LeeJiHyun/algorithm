@@ -7,7 +7,7 @@ public class Pro_Theif {
 	}
 
     public static int solution(int[] money) {
-        int answer = 0;
+    	int answer = Math.max(money[0], Math.max(money[1], money[2]));
         int len = money.length;
         int[] dp = new int[len + 1];
         
