@@ -12,7 +12,7 @@ public class Pro_StickerCollect {
         
         if(len == 1) return sticker[0];
         if(len == 2) return Math.max(sticker[0], sticker[1]);
-        
+        answer = Math.max(sticker[0], Math.max(sticker[1], sticker[2]));
         int[] dp = new int[len + 1];
         
         dp[1] = sticker[0];
