@@ -11,6 +11,7 @@ public class Pro_StickerCollect {
         int len = sticker.length;
         
         if(len == 1) return sticker[0];
+        if(len == 2) return Math.max(sticker[0], sticker[1]);
         
         int[] dp = new int[len + 1];
         
