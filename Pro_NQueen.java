@@ -32,10 +32,8 @@ public class Pro_NQueen {
 
 	private static boolean check(int n, int row, int col, int[] visited) {
 		for(int r = 0; r < row; ++r) {
-			int diff = row - r;
-			if(visited[r] == col) return false;
-			if(col - diff > -1 && visited[r] == col - diff) return false;
-			if(col + diff < n && visited[r] == col + diff) return false;
+			int rdiff = row - r, cdiff = Math.abs(visited[r] - col);
+			if(visited[r] == col || rdiff == cdiff) return false;
 		}
 		return true;
 	}
