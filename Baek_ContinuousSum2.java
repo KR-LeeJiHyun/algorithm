@@ -29,6 +29,8 @@ public class Baek_ContinuousSum2 {
 //			answer = Math.max(answer, Math.max(dp[idx][0], Math.max(dp[idx][1], dp[idx][2])));
 //		}
 		
+		//앞에서 연속합, 뒤에서 연속합 구한뒤 앞 연속합과 뒤연속합 합하는데 거기서 인덱스 차이를 2로 하면 한개 빠진 연속합을 구할 수 있다.
+		//ex) dp[idx - 1] = 0 ~ idx - 1까지의 합 rdp[idx + 1] = idx + 1 ~ N - 1까지의 합이므로 둘을 더하면 0 ~ N -1까지의 합에서 idx를 뺀 값만큼의 합이다.
 		int N = Integer.parseInt(br.readLine());
 		int[] nums = new int[N], dp = new int[N], rdp = new int[N];
 		StringTokenizer st = new StringTokenizer(br.readLine());
