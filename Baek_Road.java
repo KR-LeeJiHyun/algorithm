@@ -34,52 +34,34 @@ public class Baek_Road {
 		
 		StringTokenizer stNM = new StringTokenizer(br.readLine());
 		int N = Integer.parseInt(stNM.nextToken()), M = Integer.parseInt(stNM.nextToken());
-		PriorityQueue<Edge> edges = new PriorityQueue<>(), add_edges = new PriorityQueue<>();
+		PriorityQueue<Edge> edges = new PriorityQueue<>();
 		
 		for(int row = 0; row < N - 1; ++row) {
 			String line = br.readLine();
 			for(int col = row + 1; col < N; ++col) {
-				if(line.charAt(col) == 'Y') {
-					Edge edge = new Edge(row, col);
-					edges.add(edge);
-					add_edges.add(edge);
-				}
+				if(line.charAt(col) == 'Y') edges.add(new Edge(row, col));
 			}
 		}
 
-		int cnt = kruskal(N, edges);
-		
-		if(cnt != N - 1) bw.write("-1");
-		else {
-			while(cnt < M && !add_edges.isEmpty()) {
-				Edge edge = add_edges.poll();
-				if(!visited[edge.start][edge.dest]) {
-					++nums[edge.start];
-					++nums[edge.dest];
-					++cnt;
-				}
-			}
-			if(cnt == M) {
-				for(int idx = 0; idx < N; ++idx) bw.write(nums[idx] + " ");
-			}
-			else bw.write("-1");
-		}
+		int cnt = kruskal(N, M, edges);
+		if(cnt == M) for(int idx = 0; idx < N; ++idx) bw.write(nums[idx] + " ");
+		else bw.write("-1");
 		bw.write("\n");
 		br.close();
 		bw.flush();
 		br.close();
 	}
 	
-	private static int kruskal(int N, PriorityQueue<Edge> edges) {
+	private static int kruskal(int N, int M, PriorityQueue<Edge> edges) {
 		parent = new int[N];
 		nums = new int[N]; 
 		visited = new boolean[N][N];
 		
 		for(int idx = 0; idx < N; ++idx) parent[idx] = idx;
 		
-		int cnt = 0;
+		int cnt = 0, a_cnt = 0, a_max = M - N + 1;
 		
-		while(cnt != N - 1 && !edges.isEmpty()) {
+		while(cnt + a_cnt != M && !edges.isEmpty()) {
 			Edge edge = edges.poll();
 			int start = edge.start, dest = edge.dest;
             int fs = find(start), fd = find(dest);
@@ -91,9 +73,14 @@ public class Baek_Road {
 				visited[start][dest] = true;
 				++cnt;
 			}
+			else if(a_cnt < a_max) {
+				++nums[start];
+				++nums[dest];
+				++a_cnt;
+			}
 		}
 		
-		return cnt;
+		return cnt + a_cnt;
 	}
 
 	private static void union(int a, int b) {
