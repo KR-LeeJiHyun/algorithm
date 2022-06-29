@@ -36,10 +36,10 @@ public class Baek_Road {
 		int N = Integer.parseInt(stNM.nextToken()), M = Integer.parseInt(stNM.nextToken());
 		PriorityQueue<Edge> edges = new PriorityQueue<>(), add_edges = new PriorityQueue<>();
 		
-		for(int row = 0; row < N; ++row) {
+		for(int row = 0; row < N - 1; ++row) {
 			String line = br.readLine();
-			for(int col = 0; col < N; ++col) {
-				if(row < col && line.charAt(col) == 'Y') {
+			for(int col = row + 1; col < N; ++col) {
+				if(line.charAt(col) == 'Y') {
 					Edge edge = new Edge(row, col);
 					edges.add(edge);
 					add_edges.add(edge);
