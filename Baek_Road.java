@@ -49,7 +49,7 @@ public class Baek_Road {
 		bw.write("\n");
 		br.close();
 		bw.flush();
-		br.close();
+		bw.close();
 	}
 	
 	private static int kruskal(int N, int M, PriorityQueue<Edge> edges) {
