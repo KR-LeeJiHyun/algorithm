@@ -42,6 +42,28 @@ public class Baek_DivdeSection {
 		bw.flush();
 		bw.close();
 		
+		/*
+		int[] sum = new int[N + 1];
+		int[][] dp = new int[N + 1][M + 1];
+		
+		for(int idx = 1; idx <= N; ++idx) sum[idx] = Integer.parseInt(br.readLine()) + sum[idx - 1];
+		for(int section = 1; section <= M; ++section) dp[0][section] = -3276800;
+		
+		for(int idx = 1; idx <= N; ++idx) {
+			for(int section = 1; section <= M; ++section) {
+				dp[idx][section] = dp[idx - 1][section];
+				for(int sIdx = 1; sIdx <= idx; ++sIdx) {
+					if(sIdx >= 2) dp[idx][section] = Math.max(dp[idx][section], dp[sIdx - 2][section - 1] + sum[idx] - sum[sIdx- 1]);
+					else if(sIdx == 1 && section == 1) dp[idx][section] = Math.max(dp[idx][section], sum[idx]);
+				}
+			}
+		}
+		
+		bw.write(Integer.toString(dp[N][M]));
+		br.close();
+		bw.flush();
+		bw.close();
+		*/
 	}
 
 }
