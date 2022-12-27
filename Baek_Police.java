@@ -116,5 +116,74 @@ public class Baek_Police {
 			}
 		}
 	}
+	/*
+		static final int ROW = 0;
+	static final int COL = 1;
+	static int[][] dp;
+	static int[][] pos;
+	static int N;
+	static int W;
+
+	public static void main(String[] args) throws NumberFormatException, IOException {
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+		N = Integer.parseInt(br.readLine());
+		W = Integer.parseInt(br.readLine());
+		dp = new int[W + 1][W + 1];
+		pos = new int[W + 1][2];
+		
+		StringTokenizer st;
+		for(int idx = 1; idx <= W; ++idx) {
+			st = new StringTokenizer(br.readLine());
+			pos[idx][ROW] = Integer.parseInt(st.nextToken());
+			pos[idx][COL] = Integer.parseInt(st.nextToken());
+		}
+		
+		StringBuilder sb = new StringBuilder();
+		sb.append(memozation(1, 0, 0)).append('\n');
+		
+		int x = 0;
+		int y = 0;
+		int target = 1;
+		while(target <= W) {
+			
+			if(dp[target][y] + dist1(pos[target], pos[x]) == dp[x][y]) {
+				sb.append(1).append('\n');
+				x = target;
+			}
+			else {
+				sb.append(2).append('\n');
+				y = target;
+			}
+			++target;
+		}
+		
+		
+		bw.write(sb.toString());
+		br.close();
+		bw.close();
+	}
+
+	private static int memozation(int target, int x, int y) {
+		if(target > W) return 0;
+		if(dp[x][y] == 0) {
+			int solveX = memozation(target + 1, target, y) + dist1(pos[target], pos[x]);
+			int solveY = memozation(target + 1, x, target) + dist2(pos[target], pos[y]);
+		
+			dp[x][y] = Math.min(solveX, solveY);
+		}
+		return dp[x][y];
+	}
+
+	private static int dist2(int[] targetPos, int[] currPosY) {
+		if(currPosY[ROW] == 0 && currPosY[COL] == 0) return Math.abs(targetPos[ROW] - N) + Math.abs(targetPos[COL] - N);
+		return Math.abs(targetPos[ROW] - currPosY[ROW]) + Math.abs(targetPos[COL] - currPosY[COL]);
+	}
+
+	private static int dist1(int[] targetPos, int[] currPosX) {
+		if(currPosX[ROW] == 0 && currPosX[COL] == 0) return Math.abs(targetPos[ROW] - 1) + Math.abs(targetPos[COL] - 1);
+		return Math.abs(targetPos[ROW] - currPosX[ROW]) + Math.abs(targetPos[COL] - currPosX[COL]);
+	}
+	*/
 
 }
