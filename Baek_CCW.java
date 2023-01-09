@@ -12,8 +12,7 @@ public class Baek_CCW {
 	static final int X = 0;
 	static final int Y = 1;
 	
-	//신발끈 공식 적용
-	//해당 공식은 시계방향 혹은 반시계 방향으로 좌표들이 주어졌을 때 해당 좌표로 이루어진 다각형의 넓이를 구하는 공식
+	//벡터의 외적 CCW 사용
 	//우리는 오른손 좌표계를 사용하므로 반시계일 때 양수, 시계일 때 음수가 나온다.(?)
 	public static void main(String[] args) throws IOException {
 		
