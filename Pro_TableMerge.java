@@ -149,10 +149,13 @@ public class Pro_TableMerge {
 			}
 		}
 		
-		for(int idx = 0; idx < lr1.size(); ++idx) {
+		int len1 = lr1.size();
+		int len2 = lr2.size();
+		
+		for(int idx = 0; idx < len1; ++idx) {
 			int nr1 = lr1.get(idx);
 			int nc1 = lc1.get(idx);
-			for(int sIdx = 0; sIdx < lr2.size(); ++sIdx) {
+			for(int sIdx = 0; sIdx < len2; ++sIdx) {
 				int nr2 = lr2.get(sIdx);
 				int nc2 = lc2.get(sIdx);
 				link[nr2][nc2][nr1][nc1] = true;
