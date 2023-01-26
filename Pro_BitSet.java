@@ -4,7 +4,7 @@ public class Pro_BitSet {
 	public static void main(String[] args) {
 
 		Pro_BitSet PBS = new Pro_BitSet();
-		System.out.println(PBS.solution(4, 30, 118));
+		System.out.println(PBS.solution(1, 2, 3));
 
 	}
 	
@@ -22,8 +22,11 @@ public class Pro_BitSet {
 		long end = start + UNIT - 1;
 		
 		if(n == 0) {
-			int result = (int)(Math.min(r, end) - Math.max(start, l)) + 1;
+			long rs = Math.max(start, l);
+			long re = Math.min(r, end);
+			int result = (int)(re - rs) + 1;
 			if(result > 2) --result;
+			else if(re % 5 == 3 || rs % 5 == 3) --result;
 			if(num == '1') return result;
 			else return 0;
 		}
