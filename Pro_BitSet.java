@@ -24,7 +24,7 @@ public class Pro_BitSet {
 		if(n == 0) {
 			int result = (int)(Math.min(r, end) - Math.max(start, l)) + 1;
 			if(result > 2) --result;
-			if(num == '1') return Math.min(4, result);
+			if(num == '1') return result;
 			else return 0;
 		}
 		
@@ -33,7 +33,7 @@ public class Pro_BitSet {
 			long next = (long)Math.pow(5, n);
 			String set = null;
 			if(num == '1') set = "11011";
-			else set = "00000";
+			else return 0;
 			
 			for(int idx = 0; idx < UNIT; ++idx) {
 				long s = start + next * idx;
