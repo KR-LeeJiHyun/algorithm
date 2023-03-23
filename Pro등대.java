@@ -16,7 +16,6 @@ public class Pro등대 {
 	boolean[] visited;
 	
     public int solution(int n, int[][] lighthouse) {
-        int answer = 0;
         dp = new int[n + 1][2];
         map = new ArrayList[n + 1];
         visited = new boolean[n + 1];
