@@ -18,6 +18,8 @@ public class Pro_숫자블록 {
         	answer[idx] = getNum(idx + (int)begin);
         }
         
+        int a = (int)Math.sqrt(Math.pow(10, 9));
+        
         return answer;
     }
 
