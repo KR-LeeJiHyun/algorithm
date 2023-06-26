@@ -20,12 +20,10 @@ public class Baek수들의합4 {
 		StringTokenizer st = new StringTokenizer(br.readLine());
 		int[] arr = new int[N + 1];
 		HashMap<Integer, Integer> map = new HashMap<>();
+		map.put(0, 1);
 		
 		for(int idx = 1; idx <= N; ++idx) {
 			arr[idx] = Integer.parseInt(st.nextToken()) + arr[idx - 1];
-			if(arr[idx] == K) {
-				++answer;
-			}
 			answer += map.getOrDefault(arr[idx] - K, 0);
 			map.put(arr[idx], map.getOrDefault(arr[idx], 0) + 1);
 		}

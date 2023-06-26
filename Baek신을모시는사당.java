@@ -13,38 +13,36 @@ public class Baek신을모시는사당 {
 		
 		int N = Integer.parseInt(br.readLine());
 		StringTokenizer st = new StringTokenizer(br.readLine());
-		int[] prefix = new int[N];
+		int prefix = 0;
 		int min = 0;
 		int max = 0;
 		
 		int num = Integer.parseInt(st.nextToken());
 		if(num == 1) {
-			prefix[0] = 1;
+			prefix = 1;
 		}
 		else {
-			prefix[0] = -1;
+			prefix = -1;
 		}
-		max = prefix[0];
-		min = prefix[0];
+		max = Math.max(prefix, max);
+		min = Math.min(prefix, min);
 		
-		int answer = Math.abs(prefix[0]);
+		int answer = Math.abs(prefix);
 		
 		for(int idx = 1; idx < N; ++idx) {
 			num = Integer.parseInt(st.nextToken());
 			if(num == 1) {
-				prefix[idx] = 1 + prefix[idx - 1];
+				prefix += 1;
 			}
 			else {
-				prefix[idx] = -1 + prefix[idx - 1];
+				prefix -= 1;
 			}
 			
-			answer = Math.max(answer, Math.abs(prefix[idx]));
-			answer = Math.max(answer, Math.abs(prefix[idx] - min));
-			answer = Math.max(answer, Math.abs(prefix[idx] - max));
+			answer = Math.max(answer, Math.abs(prefix - min));
+			answer = Math.max(answer, Math.abs(prefix - max));
 			
-			min = Math.min(min, prefix[idx]);
-			max = Math.max(max, prefix[idx]);
-			 
+			min = Math.min(min, prefix);
+			max = Math.max(max, prefix);	 
 		}
 		
 		bw.write(String.valueOf(answer));

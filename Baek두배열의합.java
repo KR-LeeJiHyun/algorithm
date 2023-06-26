@@ -44,18 +44,10 @@ public class Baek두배열의합 {
 			}
 		}
 		
-		HashMap<Integer, Integer> bMap = new HashMap<>();
 		for(int idx = 0; idx < M; ++idx) {
-			bMap.put(B[idx], bMap.getOrDefault(B[idx], 0) + 1);
+			answer += aMap.getOrDefault(T - B[idx], 0);
 			for(int sIdx = idx + 1; sIdx < M; ++sIdx) {
-				bMap.put(B[sIdx] - B[idx], bMap.getOrDefault(B[sIdx] - B[idx], 0) + 1);
-			}
-		}
-		
-		for(int aKey : aMap.keySet()) {
-			int bKey = T - aKey;
-			if(bMap.containsKey(bKey)) {
-				answer += (long)aMap.get(aKey) * (long)bMap.get(bKey);
+				answer += aMap.getOrDefault(T - (B[sIdx] - B[idx]), 0);
 			}
 		}
 		

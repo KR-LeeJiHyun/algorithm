@@ -1,14 +1,31 @@
 import java.util.ArrayList;
+import java.util.HashSet;
 
 public class Pro몸짱트레이너라이언의고민 {
 
 	public static void main(String[] args) {
-		int n = 4;
-		int m = 5;
-		int[][] timetable = {{1140,1200},{1150,1200},{1100,1200},{1210,1300},{1220,1280}};
 		
 		Pro몸짱트레이너라이언의고민 S = new Pro몸짱트레이너라이언의고민();
-		S.solution(n, m, timetable);
+		for(int n = 3; n <= 10; ++n) {
+			for(int max = 3; max <= n*n / 2; ++max) {
+				int minwoo = S.solution2(n, max);
+				int jh = S.solution(n, max);
+				if(jh != minwoo) {
+					System.out.println("=====================================");
+					System.out.print("문제 조건 판크기 :" );
+					System.out.print(n);
+					System.out.print("사람수 : " );
+					System.out.println(max);
+					System.out.println("민우 풀이 답");
+					System.out.println(minwoo);
+					System.out.println("지현 풀이 답");
+					System.out.println(jh);
+					System.out.println("=====================================");
+				}
+			}
+		}
+		System.out.println("끝!!!!");
+		
 	}
 	
 	class Pos {
@@ -22,17 +39,7 @@ public class Pro몸짱트레이너라이언의고민 {
 	}
 	
 	
-    public int solution(int n, int m, int[][] timetable) {
-        int maxCustomers = 0;
-        final int start = 600;
-        int[] customers = new int[720];
-        for(int idx = 0; idx < m; ++idx) {
-        	for(int time = timetable[idx][0]; time <= timetable[idx][1]; ++time) {
-        		++customers[time - start];
-        		maxCustomers = Math.max(maxCustomers, customers[time - start]);
-        	}
-        }
-        
+    public int solution(int n, int maxCustomers) {   
         final int MAX = 2 * (n - 1);
         if(maxCustomers == 1) {
         	return 0;
@@ -60,6 +67,7 @@ public class Pro몸짱트레이너라이언의고민 {
         		}
         	}
         }
+        
         return 1;
     }
 
@@ -77,6 +85,60 @@ public class Pro몸짱트레이너라이언의고민 {
 	private int calcDis(Pos p, Pos next) {
 		return Math.abs(p.row - next.row) + Math.abs(p.col - next.col);
 	}
+	
+	 class Point {
+	        int row;
+	        int col;
+
+	        public Point(int row, int col) {
+	            this.row = row;
+	            this.col = col;
+	        }
+	    }
+
+	    public int solution2(int n, int max) {
+	        int answer = 1;
+	        for (int distance = (n - 1) * 2; distance > 1; --distance) {
+	            HashSet<Point> set = new HashSet<>();
+	            if (dfs(set, max, n, distance)) {
+	                answer = distance;
+	                break;
+	            }
+	        }
+
+	        return answer;
+	    }
+
+	    public boolean dfs(HashSet<Point> set, int count, int n, int targetDistance) {
+	        if (count == 0) {
+	            return true;
+	        }
+
+	        for (int row = 0; row < n; ++row) {
+	            for (int col = 0; col < n; ++col) {
+	                boolean pass = true;
+	                for (Point prev : set) {
+	                    int distance = Math.abs(row - prev.row) + Math.abs(col - prev.col);
+	                    if (distance < targetDistance) {
+	                        pass = false;
+	                        break;
+	                    }
+	                }
+
+	                if (pass) {
+	                    Point p = new Point(row, col);
+	                    set.add(p);
+	                    if (dfs(set, count - 1, n, targetDistance)) {
+	                        return true;
+	                    }
+
+	                    set.remove(p);
+	                }
+	            }
+	        }
+
+	        return false;
+	    }
 
 
 
