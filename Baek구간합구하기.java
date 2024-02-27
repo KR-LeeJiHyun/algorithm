@@ -42,6 +42,7 @@ public class Baek구간합구하기 {
 			else {
 				answer.append(find(1, N, b, (int)c, 1));
 				answer.append('\n');
+				
 			}
 		}
 		
